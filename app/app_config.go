@@ -53,7 +53,10 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 	"google.golang.org/protobuf/types/known/durationpb"
 
+	spectrumrequestmodulev1 "spectrumSharingBlockchain/api/spectrumsharingblockchain/spectrumrequest/module"
 	spectrumsharingblockchainmodulev1 "spectrumSharingBlockchain/api/spectrumsharingblockchain/spectrumsharingblockchain/module"
+	_ "spectrumSharingBlockchain/x/spectrumrequest/module" // import for side-effects
+	spectrumrequestmoduletypes "spectrumSharingBlockchain/x/spectrumrequest/types"
 	_ "spectrumSharingBlockchain/x/spectrumsharingblockchain/module" // import for side-effects
 	spectrumsharingblockchainmoduletypes "spectrumSharingBlockchain/x/spectrumsharingblockchain/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
@@ -94,6 +97,7 @@ var (
 		circuittypes.ModuleName,
 		// chain modules
 		spectrumsharingblockchainmoduletypes.ModuleName,
+		spectrumrequestmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -119,6 +123,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		spectrumsharingblockchainmoduletypes.ModuleName,
+		spectrumrequestmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -138,6 +143,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		spectrumsharingblockchainmoduletypes.ModuleName,
+		spectrumrequestmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -296,6 +302,10 @@ var (
 			{
 				Name:   spectrumsharingblockchainmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&spectrumsharingblockchainmodulev1.Module{}),
+			},
+			{
+				Name:   spectrumrequestmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&spectrumrequestmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

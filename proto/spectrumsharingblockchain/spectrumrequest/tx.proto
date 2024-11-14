@@ -1,6 +1,7 @@
 syntax = "proto3";
-package spectrumsharingblockchain.spectrumrequest;
 
+package spectrumsharingblockchain.spectrumrequest;
+import "cosmos/base/v1beta1/coin.proto";
 import "amino/amino.proto";
 import "cosmos/msg/v1/msg.proto";
 import "cosmos_proto/cosmos.proto";
@@ -12,29 +13,41 @@ option go_package = "spectrumSharingBlockchain/x/spectrumrequest/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-
+  
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc UpdateParams  (MsgUpdateParams ) returns (MsgUpdateParamsResponse );
+  rpc CreateRequest (MsgCreateRequest) returns (MsgCreateRequestResponse);
 }
-
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
-  option (cosmos.msg.v1.signer) = "authority";
-  option (amino.name) = "spectrumsharingblockchain/x/spectrumrequest/MsgUpdateParams";
-
+  option (cosmos.msg.v1.signer) =                                                   "authority";
+  option           (amino.name) = "spectrumsharingblockchain/x/spectrumrequest/MsgUpdateParams";
+  
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-  //
+  
   // NOTE: All parameters must be supplied.
-  Params params = 2 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
 
 // MsgUpdateParamsResponse defines the response structure for executing a
 // MsgUpdateParams message.
 message MsgUpdateParamsResponse {}
+
+message MsgCreateRequest {
+  option (cosmos.msg.v1.signer) = "id";
+  uint64 id = 1;  // 系统生成的唯一请求 ID
+  string creator = 2;
+  int32 frequency = 3;
+  int32 bandwidth = 4;
+  int32 duration = 5;
+  cosmos.base.v1beta1.Coin bid_amount = 6;
+  string status = 7;
+  int64 request_time = 8;
+}
+
+message MsgCreateRequestResponse {}
+

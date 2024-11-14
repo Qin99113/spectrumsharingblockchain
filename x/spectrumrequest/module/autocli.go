@@ -28,6 +28,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "CreateRequest",
+					Use:            "create-request [frequency] [bandwidth] [duration] [bid-amount]",
+					Short:          "Send a createRequest tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "frequency"}, {ProtoField: "bandwidth"}, {ProtoField: "duration"}, {ProtoField: "bidAmount"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

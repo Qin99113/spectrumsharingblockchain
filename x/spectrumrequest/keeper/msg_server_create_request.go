@@ -12,7 +12,23 @@ func (k msgServer) CreateRequest(goCtx context.Context, msg *types.MsgCreateRequ
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Handling the message
-	_ = ctx
+	// _ = ctx
 
-	return &types.MsgCreateRequestResponse{}, nil
+	requestID := k.GetNextRequestID(ctx)
+
+	request := types.SpectrumRequest{
+		Id:           requestID,
+		Creator:      msg.Creator,
+		Organization: msg.Organization,
+		Frequency:    msg.Frequency,
+		Bandwidth:    msg.Bandwidth,
+		Duration:     msg.Duration,
+		BidAmount:    msg.BidAmount,
+		Status:       types.StatusPending,
+		RequestTime:  msg.RequestTime,
+	}
+
+	k.SetSpectrumRequest(ctx, request)
+
+	return &types.MsgCreateRequestResponse{Id: requestID}, nil
 }

@@ -9,6 +9,10 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_spectrumrequest"
+	// RequestIDKey defines the requestID key
+	RequestIDKey = "RequestIDKey"
+
+	SpectrumRequestKey = "SpectrumRequest-"
 )
 
 var (

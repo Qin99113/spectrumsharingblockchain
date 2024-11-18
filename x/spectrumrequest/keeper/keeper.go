@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"fmt"
+	"strconv"
 
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/log"
@@ -74,7 +75,7 @@ func (k Keeper) GetNextRequestID(ctx sdk.Context) uint64 {
 
 func (k Keeper) SetSpectrumRequest(ctx sdk.Context, request types.SpectrumRequest) {
 	store := k.storeService.OpenKVStore(ctx)
-	key := types.KeyPrefix(types.SpectrumRequestKey + string(request.Id))
+	key := types.KeyPrefix(types.SpectrumRequestKey + strconv.FormatUint(request.Id, 10))
 	bz := k.cdc.MustMarshal(&request)
 	err := store.Set(key, bz)
 	if err != nil {

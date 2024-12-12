@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	"spectrumSharingBlockchain/x/spectrumrequest/types"
 
@@ -20,7 +21,7 @@ func (k msgServer) CreateRequest(goCtx context.Context, msg *types.MsgCreateRequ
 		Id:           requestID,
 		Creator:      msg.Creator,
 		Organization: msg.Organization,
-		Frequency:    msg.Frequency,
+		UserType:     msg.UserType,
 		Bandwidth:    msg.Bandwidth,
 		Duration:     msg.Duration,
 		BidAmount:    msg.BidAmount,
@@ -28,7 +29,21 @@ func (k msgServer) CreateRequest(goCtx context.Context, msg *types.MsgCreateRequ
 		RequestTime:  msg.RequestTime,
 	}
 
-	k.SetSpectrumRequest(ctx, request)
+	// Attempt to save the SpectrumRequest
+	err := k.SetSpectrumRequest(ctx, request)
+	if err != nil {
+		// Log the error and return a failure response
+		k.Logger().Error(fmt.Sprintf("Failed to create SpectrumRequest with ID: %d, error: %v", requestID, err))
+		return &types.MsgCreateRequestResponse{
+			Status:  "failure",
+			Message: fmt.Sprintf("Failed to create request: %v", err),
+		}, err
+	}
 
-	return &types.MsgCreateRequestResponse{Id: requestID}, nil
+	// Log success and return a success response
+	k.Logger().Info(fmt.Sprintf("Request created successfully with ID: %d", requestID))
+	return &types.MsgCreateRequestResponse{
+		Status:  "success",
+		Message: fmt.Sprintf("Request created successfully with ID: %d", requestID),
+	}, nil
 }

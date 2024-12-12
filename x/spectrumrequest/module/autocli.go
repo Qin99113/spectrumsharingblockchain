@@ -30,9 +30,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "CreateRequest",
-					Use:            "create-request [frequency] [bandwidth] [duration] [bid-amount]",
+					Use:            "create-request [bandwidth] [duration] [bid-amount]",
 					Short:          "Send a createRequest tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "frequency"}, {ProtoField: "bandwidth"}, {ProtoField: "duration"}, {ProtoField: "bidAmount"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "bandwidth"}, {ProtoField: "duration"}, {ProtoField: "bid_amount"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

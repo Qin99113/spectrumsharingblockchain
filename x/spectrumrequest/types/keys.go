@@ -1,5 +1,9 @@
 package types
 
+import (
+	sdk "github.com/cosmos/cosmos-sdk/types"
+)
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "spectrumrequest"
@@ -12,7 +16,8 @@ const (
 	// RequestIDKey defines the requestID key
 	RequestIDKey = "RequestIDKey"
 
-	SpectrumRequestKey = "SpectrumRequest-"
+	// SpectrumRequestKeyPrefix defines the prefix for SpectrumRequest keys
+	SpectrumRequestKeyPrefix = "SpectrumRequest-"
 )
 
 var (
@@ -21,4 +26,9 @@ var (
 
 func KeyPrefix(p string) []byte {
 	return []byte(p)
+}
+
+// GetSpectrumRequestKey generates the key for a SpectrumRequest with the given ID
+func GetSpectrumRequestKey(id uint64) []byte {
+	return append([]byte(SpectrumRequestKeyPrefix), sdk.Uint64ToBigEndian(id)...)
 }

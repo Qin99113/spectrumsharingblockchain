@@ -275,6 +275,63 @@ func New(
 	/****  Module Options ****/
 
 	app.ModuleManager.RegisterInvariants(app.CrisisKeeper)
+	app.ModuleManager.SetOrderBeginBlockers(
+		"spectrumrequest",
+		"spectrumallocation",
+		"spectrumsharingblockchain",
+		"auth",
+		"authz",
+		"bank",
+		"staking",
+		"distribution",
+		"gov",
+		"transfer",
+		"capability",
+		"evidence",
+		"ibc",
+		"mint",
+		"slashing",
+	)
+	app.ModuleManager.SetOrderEndBlockers(
+		"spectrumallocation",
+		"spectrumrequest",
+		"spectrumsharingblockchain",
+		"crisis",
+		"feegrant",
+		"gov",
+		"group",
+		"staking",
+		"transfer",
+		"slashing",
+	)
+
+	app.ModuleManager.SetOrderInitGenesis(
+		"spectrumrequest",
+		"spectrumallocation",
+		"spectrumsharingblockchain",
+		"auth",
+		"authz",
+		"bank",
+		"capability",
+		"circuit",
+		"crisis",
+		"distribution",
+		"evidence",
+		"feegrant",
+		"feeibc",
+		"genutil",
+		"gov",
+		"group",
+		"ibc",
+		"interchainaccounts",
+		"mint",
+		"nft",
+		"slashing",
+		"staking",
+		"transfer",
+		"upgrade",
+		"vesting",
+	)
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	overrideModules := map[string]module.AppModuleSimulation{

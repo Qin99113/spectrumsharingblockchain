@@ -19,6 +19,7 @@ import (
 
 	"spectrumSharingBlockchain/x/spectrumallocation/keeper"
 	"spectrumSharingBlockchain/x/spectrumallocation/types"
+	spectrumrequestmodulekeeper "spectrumSharingBlockchain/x/spectrumrequest/keeper"
 )
 
 func SpectrumallocationKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
@@ -32,11 +33,18 @@ func SpectrumallocationKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	registry := codectypes.NewInterfaceRegistry()
 	cdc := codec.NewProtoCodec(registry)
 	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+	SpectrumRequestKeeper := spectrumrequestmodulekeeper.NewKeeper(
+		cdc,
+		runtime.NewKVStoreService(storetypes.NewKVStoreKey("spectrumrequest")),
+		log.NewNopLogger(),
+		authority.String(),
+	)
 
 	k := keeper.NewKeeper(
 		cdc,
 		runtime.NewKVStoreService(storeKey),
 		log.NewNopLogger(),
+		SpectrumRequestKeeper,
 		authority.String(),
 	)
 

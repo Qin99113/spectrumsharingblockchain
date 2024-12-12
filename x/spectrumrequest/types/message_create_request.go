@@ -16,11 +16,11 @@ const (
 	StatusRejected = "Rejected"
 )
 
-func NewMsgCreateRequest(creator string, organization string, frequency int32, bandwidth int32, duration int32, bidAmount *sdk.Coin) *MsgCreateRequest {
+func NewMsgCreateRequest(creator string, organization string, user_type string, bandwidth int32, duration int32, bidAmount *sdk.Coin) *MsgCreateRequest {
 	return &MsgCreateRequest{
 		Creator:      creator,
 		Organization: organization,
-		Frequency:    frequency,
+		UserType:     user_type,
 		Bandwidth:    bandwidth,
 		Duration:     duration,
 		BidAmount:    bidAmount,
@@ -33,10 +33,6 @@ func (msg *MsgCreateRequest) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-	}
-
-	if msg.Frequency <= 0 {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "frequency must be positive")
 	}
 	if msg.Bandwidth <= 0 {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "bandwidth must be positive")

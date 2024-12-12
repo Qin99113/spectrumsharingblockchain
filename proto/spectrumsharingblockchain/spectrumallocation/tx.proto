@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package spectrumsharingblockchain.spectrumallocation;
 
 import "amino/amino.proto";
@@ -12,29 +13,38 @@ option go_package = "spectrumSharingBlockchain/x/spectrumallocation/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-
+  
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc UpdateParams     (MsgUpdateParams    ) returns (MsgUpdateParamsResponse    );
+  rpc CreateAllocation (MsgCreateAllocation) returns (MsgCreateAllocationResponse);
 }
-
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
-  option (cosmos.msg.v1.signer) = "authority";
-  option (amino.name) = "spectrumsharingblockchain/x/spectrumallocation/MsgUpdateParams";
-
+  option (cosmos.msg.v1.signer) =                                                      "authority";
+  option           (amino.name) = "spectrumsharingblockchain/x/spectrumallocation/MsgUpdateParams";
+  
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-  //
+  
   // NOTE: All parameters must be supplied.
-  Params params = 2 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
 
 // MsgUpdateParamsResponse defines the response structure for executing a
 // MsgUpdateParams message.
 message MsgUpdateParamsResponse {}
+
+message MsgCreateAllocation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator        = 1;        // 用户地址
+  string allocation_type = 2;       // 分配类型 (Dynamic, Manual)
+}
+
+message MsgCreateAllocationResponse {
+  string status = 1;                // 分配的当前状态
+  string message = 2;               // 可选的处理信息或描述
+}
+

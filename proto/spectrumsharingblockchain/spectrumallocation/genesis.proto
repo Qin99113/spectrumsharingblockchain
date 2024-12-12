@@ -14,4 +14,29 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  repeated SpectrumAllocation allocations = 2; // 模块的初始分配记录
+  repeated Channel channels = 3;               // 初始频道状态
+}
+
+message SpectrumAllocation {
+  uint64 allocation_id = 1;          // 自动生成的唯一分配记录 ID
+  uint64 request_id = 2;             // 关联的请求 ID（继承自 SpectrumRequest）
+  string creator = 3;                // 分配的用户地址（继承自 SpectrumRequest）
+  string organization = 4;           // 分配的用户所属组织（继承自 SpectrumRequest）
+  string user_type = 5;              // 用户类型（如 AFC, LPI）
+  repeated Channel channels = 6;     // 分配的频道信息（支持多频道）
+  int32 bandwidth = 7;               // 分配的总带宽 (MHz)
+  int64 start_time = 8;              // 分配开始时间
+  int64 end_time = 9;                // 分配结束时间
+  int32 priority = 10;               // 动态计算的优先级
+  string status = 11;                // 分配的状态: Active, Released, Pending
+  string allocation_type = 12;       // 分配类型（如 Auction, Manual, Dynamic）
+}
+
+message Channel {
+  int32 id = 1;                      // 频道 ID
+  int32 frequency = 2;               // 频道中心频率 (MHz)
+  int32 bandwidth = 3;               // 频道宽度 (MHz)
+  string channel_status = 4;         // 状态: Available, Allocated, Protected
+  repeated string allowed_users = 5; // List of user types allowed to use this channel
 }

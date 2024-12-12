@@ -3,8 +3,8 @@ package simulation
 import (
 	"math/rand"
 
-	"spectrumSharingBlockchain/x/spectrumsharingblockchain/keeper"
-	"spectrumSharingBlockchain/x/spectrumsharingblockchain/types"
+	"spectrumSharingBlockchain/x/spectrumallocation/keeper"
+	"spectrumSharingBlockchain/x/spectrumallocation/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"

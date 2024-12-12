@@ -41,25 +41,17 @@ message MsgCreateRequest {
   option (cosmos.msg.v1.signer) = "creator";
   string creator = 1;
   string organization = 2;
-  int32 frequency = 3;
+  string user_type = 3;                  
   int32 bandwidth = 4;
   int32 duration = 5;
   cosmos.base.v1beta1.Coin bid_amount = 6;
   string status = 7;
   int64 request_time = 8;
+
 }
 
-message SpectrumRequest {
-  uint64 id = 1; // 自动生成的唯一 ID
-  string organization = 2; 
-  string creator = 3;
-  int32 frequency = 4;
-  int32 bandwidth = 5;
-  int32 duration = 6;
-  cosmos.base.v1beta1.Coin bid_amount = 7;
-  string status = 8;
-  int64 request_time = 9;
-}
-
-message MsgCreateRequestResponse { uint64 id = 1; }
+message MsgCreateRequestResponse { 
+  string status = 1;  // 状态信息，例如 "success" 或 "failure"
+  string message = 2; // 可选的描述信息
+ }
 

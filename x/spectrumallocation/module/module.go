@@ -145,13 +145,32 @@ func (AppModule) ConsensusVersion() uint64 { return 1 }
 
 // BeginBlock contains the logic that is automatically triggered at the beginning of each block.
 // The begin block implementation is optional.
-func (am AppModule) BeginBlock(_ context.Context) error {
+func (am AppModule) BeginBlock(ctx context.Context) error {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	BeginBlocker(sdkCtx, am.keeper) // 调用 BeginBlocker 实现核心逻辑
 	return nil
+}
+
+func BeginBlocker(ctx sdk.Context, k keeper.Keeper) {
+	blockHeight := ctx.BlockHeight()
+
+	if blockHeight%10 == 0 {
+		k.ReleaseExpiredAllocations(ctx)
+	}
+
+	if blockHeight%20 == 0 {
+		k.AutoAllocateRequests(ctx)
+	}
 }
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
-func (am AppModule) EndBlock(_ context.Context) error {
+func (am AppModule) EndBlock(ctx context.Context) error {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+
+	// Call your keeper logic for resource release and fee settlement here
+	am.keeper.ReleaseExpiredAllocations(sdkCtx)
+
 	return nil
 }
 
@@ -180,8 +199,9 @@ type ModuleInputs struct {
 	Config       *modulev1.Module
 	Logger       log.Logger
 
-	AccountKeeper types.AccountKeeper
-	BankKeeper    types.BankKeeper
+	AccountKeeper         types.AccountKeeper
+	BankKeeper            types.BankKeeper
+	SpectrumrequestKeeper types.SpectrumrequestKeeper
 }
 
 type ModuleOutputs struct {
@@ -201,6 +221,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.Cdc,
 		in.StoreService,
 		in.Logger,
+		in.SpectrumrequestKeeper,
 		authority.String(),
 	)
 	m := NewAppModule(

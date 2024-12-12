@@ -28,6 +28,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "CreateAllocation",
+					Use:            "create-allocation [request-id] [start-time] [end-time] [allocation-type]",
+					Short:          "Send a create-allocation tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "requestId"}, {ProtoField: "startTime"}, {ProtoField: "endTime"}, {ProtoField: "allocationType"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

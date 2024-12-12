@@ -2,28 +2,133 @@
 package spectrumallocation
 
 import (
-	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	_ "cosmossdk.io/api/amino"
+	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
+var _ protoreflect.List = (*_GenesisState_2_list)(nil)
+
+type _GenesisState_2_list struct {
+	list *[]*SpectrumAllocation
+}
+
+func (x *_GenesisState_2_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_GenesisState_2_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_GenesisState_2_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*SpectrumAllocation)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_GenesisState_2_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*SpectrumAllocation)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_GenesisState_2_list) AppendMutable() protoreflect.Value {
+	v := new(SpectrumAllocation)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_2_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_GenesisState_2_list) NewElement() protoreflect.Value {
+	v := new(SpectrumAllocation)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_2_list) IsValid() bool {
+	return x.list != nil
+}
+
+var _ protoreflect.List = (*_GenesisState_3_list)(nil)
+
+type _GenesisState_3_list struct {
+	list *[]*Channel
+}
+
+func (x *_GenesisState_3_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_GenesisState_3_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_GenesisState_3_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Channel)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_GenesisState_3_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Channel)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_GenesisState_3_list) AppendMutable() protoreflect.Value {
+	v := new(Channel)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_3_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_GenesisState_3_list) NewElement() protoreflect.Value {
+	v := new(Channel)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_3_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
-	md_GenesisState        protoreflect.MessageDescriptor
-	fd_GenesisState_params protoreflect.FieldDescriptor
+	md_GenesisState             protoreflect.MessageDescriptor
+	fd_GenesisState_params      protoreflect.FieldDescriptor
+	fd_GenesisState_allocations protoreflect.FieldDescriptor
+	fd_GenesisState_channels    protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_spectrumsharingblockchain_spectrumallocation_genesis_proto_init()
 	md_GenesisState = File_spectrumsharingblockchain_spectrumallocation_genesis_proto.Messages().ByName("GenesisState")
 	fd_GenesisState_params = md_GenesisState.Fields().ByName("params")
+	fd_GenesisState_allocations = md_GenesisState.Fields().ByName("allocations")
+	fd_GenesisState_channels = md_GenesisState.Fields().ByName("channels")
 }
 
 var _ protoreflect.Message = (*fastReflection_GenesisState)(nil)
@@ -97,6 +202,18 @@ func (x *fastReflection_GenesisState) Range(f func(protoreflect.FieldDescriptor,
 			return
 		}
 	}
+	if len(x.Allocations) != 0 {
+		value := protoreflect.ValueOfList(&_GenesisState_2_list{list: &x.Allocations})
+		if !f(fd_GenesisState_allocations, value) {
+			return
+		}
+	}
+	if len(x.Channels) != 0 {
+		value := protoreflect.ValueOfList(&_GenesisState_3_list{list: &x.Channels})
+		if !f(fd_GenesisState_channels, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -114,6 +231,10 @@ func (x *fastReflection_GenesisState) Has(fd protoreflect.FieldDescriptor) bool 
 	switch fd.FullName() {
 	case "spectrumsharingblockchain.spectrumallocation.GenesisState.params":
 		return x.Params != nil
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.allocations":
+		return len(x.Allocations) != 0
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.channels":
+		return len(x.Channels) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.GenesisState"))
@@ -132,6 +253,10 @@ func (x *fastReflection_GenesisState) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "spectrumsharingblockchain.spectrumallocation.GenesisState.params":
 		x.Params = nil
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.allocations":
+		x.Allocations = nil
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.channels":
+		x.Channels = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.GenesisState"))
@@ -151,6 +276,18 @@ func (x *fastReflection_GenesisState) Get(descriptor protoreflect.FieldDescripto
 	case "spectrumsharingblockchain.spectrumallocation.GenesisState.params":
 		value := x.Params
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.allocations":
+		if len(x.Allocations) == 0 {
+			return protoreflect.ValueOfList(&_GenesisState_2_list{})
+		}
+		listValue := &_GenesisState_2_list{list: &x.Allocations}
+		return protoreflect.ValueOfList(listValue)
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.channels":
+		if len(x.Channels) == 0 {
+			return protoreflect.ValueOfList(&_GenesisState_3_list{})
+		}
+		listValue := &_GenesisState_3_list{list: &x.Channels}
+		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.GenesisState"))
@@ -173,6 +310,14 @@ func (x *fastReflection_GenesisState) Set(fd protoreflect.FieldDescriptor, value
 	switch fd.FullName() {
 	case "spectrumsharingblockchain.spectrumallocation.GenesisState.params":
 		x.Params = value.Message().Interface().(*Params)
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.allocations":
+		lv := value.List()
+		clv := lv.(*_GenesisState_2_list)
+		x.Allocations = *clv.list
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.channels":
+		lv := value.List()
+		clv := lv.(*_GenesisState_3_list)
+		x.Channels = *clv.list
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.GenesisState"))
@@ -198,6 +343,18 @@ func (x *fastReflection_GenesisState) Mutable(fd protoreflect.FieldDescriptor) p
 			x.Params = new(Params)
 		}
 		return protoreflect.ValueOfMessage(x.Params.ProtoReflect())
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.allocations":
+		if x.Allocations == nil {
+			x.Allocations = []*SpectrumAllocation{}
+		}
+		value := &_GenesisState_2_list{list: &x.Allocations}
+		return protoreflect.ValueOfList(value)
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.channels":
+		if x.Channels == nil {
+			x.Channels = []*Channel{}
+		}
+		value := &_GenesisState_3_list{list: &x.Channels}
+		return protoreflect.ValueOfList(value)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.GenesisState"))
@@ -214,6 +371,12 @@ func (x *fastReflection_GenesisState) NewField(fd protoreflect.FieldDescriptor) 
 	case "spectrumsharingblockchain.spectrumallocation.GenesisState.params":
 		m := new(Params)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.allocations":
+		list := []*SpectrumAllocation{}
+		return protoreflect.ValueOfList(&_GenesisState_2_list{list: &list})
+	case "spectrumsharingblockchain.spectrumallocation.GenesisState.channels":
+		list := []*Channel{}
+		return protoreflect.ValueOfList(&_GenesisState_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.GenesisState"))
@@ -287,6 +450,18 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.Params)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if len(x.Allocations) > 0 {
+			for _, e := range x.Allocations {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if len(x.Channels) > 0 {
+			for _, e := range x.Channels {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -315,6 +490,38 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Channels) > 0 {
+			for iNdEx := len(x.Channels) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Channels[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0x1a
+			}
+		}
+		if len(x.Allocations) > 0 {
+			for iNdEx := len(x.Allocations) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Allocations[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0x12
+			}
 		}
 		if x.Params != nil {
 			encoded, err := options.Marshal(x.Params)
@@ -415,6 +622,1864 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Allocations", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Allocations = append(x.Allocations, &SpectrumAllocation{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Allocations[len(x.Allocations)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Channels", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Channels = append(x.Channels, &Channel{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Channels[len(x.Channels)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_SpectrumAllocation_6_list)(nil)
+
+type _SpectrumAllocation_6_list struct {
+	list *[]*Channel
+}
+
+func (x *_SpectrumAllocation_6_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_SpectrumAllocation_6_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_SpectrumAllocation_6_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Channel)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_SpectrumAllocation_6_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Channel)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_SpectrumAllocation_6_list) AppendMutable() protoreflect.Value {
+	v := new(Channel)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_SpectrumAllocation_6_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_SpectrumAllocation_6_list) NewElement() protoreflect.Value {
+	v := new(Channel)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_SpectrumAllocation_6_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_SpectrumAllocation                 protoreflect.MessageDescriptor
+	fd_SpectrumAllocation_allocation_id   protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_request_id      protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_creator         protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_organization    protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_user_type       protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_channels        protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_bandwidth       protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_start_time      protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_end_time        protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_priority        protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_status          protoreflect.FieldDescriptor
+	fd_SpectrumAllocation_allocation_type protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_spectrumsharingblockchain_spectrumallocation_genesis_proto_init()
+	md_SpectrumAllocation = File_spectrumsharingblockchain_spectrumallocation_genesis_proto.Messages().ByName("SpectrumAllocation")
+	fd_SpectrumAllocation_allocation_id = md_SpectrumAllocation.Fields().ByName("allocation_id")
+	fd_SpectrumAllocation_request_id = md_SpectrumAllocation.Fields().ByName("request_id")
+	fd_SpectrumAllocation_creator = md_SpectrumAllocation.Fields().ByName("creator")
+	fd_SpectrumAllocation_organization = md_SpectrumAllocation.Fields().ByName("organization")
+	fd_SpectrumAllocation_user_type = md_SpectrumAllocation.Fields().ByName("user_type")
+	fd_SpectrumAllocation_channels = md_SpectrumAllocation.Fields().ByName("channels")
+	fd_SpectrumAllocation_bandwidth = md_SpectrumAllocation.Fields().ByName("bandwidth")
+	fd_SpectrumAllocation_start_time = md_SpectrumAllocation.Fields().ByName("start_time")
+	fd_SpectrumAllocation_end_time = md_SpectrumAllocation.Fields().ByName("end_time")
+	fd_SpectrumAllocation_priority = md_SpectrumAllocation.Fields().ByName("priority")
+	fd_SpectrumAllocation_status = md_SpectrumAllocation.Fields().ByName("status")
+	fd_SpectrumAllocation_allocation_type = md_SpectrumAllocation.Fields().ByName("allocation_type")
+}
+
+var _ protoreflect.Message = (*fastReflection_SpectrumAllocation)(nil)
+
+type fastReflection_SpectrumAllocation SpectrumAllocation
+
+func (x *SpectrumAllocation) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_SpectrumAllocation)(x)
+}
+
+func (x *SpectrumAllocation) slowProtoReflect() protoreflect.Message {
+	mi := &file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_SpectrumAllocation_messageType fastReflection_SpectrumAllocation_messageType
+var _ protoreflect.MessageType = fastReflection_SpectrumAllocation_messageType{}
+
+type fastReflection_SpectrumAllocation_messageType struct{}
+
+func (x fastReflection_SpectrumAllocation_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_SpectrumAllocation)(nil)
+}
+func (x fastReflection_SpectrumAllocation_messageType) New() protoreflect.Message {
+	return new(fastReflection_SpectrumAllocation)
+}
+func (x fastReflection_SpectrumAllocation_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_SpectrumAllocation
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_SpectrumAllocation) Descriptor() protoreflect.MessageDescriptor {
+	return md_SpectrumAllocation
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_SpectrumAllocation) Type() protoreflect.MessageType {
+	return _fastReflection_SpectrumAllocation_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_SpectrumAllocation) New() protoreflect.Message {
+	return new(fastReflection_SpectrumAllocation)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_SpectrumAllocation) Interface() protoreflect.ProtoMessage {
+	return (*SpectrumAllocation)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_SpectrumAllocation) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.AllocationId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.AllocationId)
+		if !f(fd_SpectrumAllocation_allocation_id, value) {
+			return
+		}
+	}
+	if x.RequestId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.RequestId)
+		if !f(fd_SpectrumAllocation_request_id, value) {
+			return
+		}
+	}
+	if x.Creator != "" {
+		value := protoreflect.ValueOfString(x.Creator)
+		if !f(fd_SpectrumAllocation_creator, value) {
+			return
+		}
+	}
+	if x.Organization != "" {
+		value := protoreflect.ValueOfString(x.Organization)
+		if !f(fd_SpectrumAllocation_organization, value) {
+			return
+		}
+	}
+	if x.UserType != "" {
+		value := protoreflect.ValueOfString(x.UserType)
+		if !f(fd_SpectrumAllocation_user_type, value) {
+			return
+		}
+	}
+	if len(x.Channels) != 0 {
+		value := protoreflect.ValueOfList(&_SpectrumAllocation_6_list{list: &x.Channels})
+		if !f(fd_SpectrumAllocation_channels, value) {
+			return
+		}
+	}
+	if x.Bandwidth != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Bandwidth)
+		if !f(fd_SpectrumAllocation_bandwidth, value) {
+			return
+		}
+	}
+	if x.StartTime != int64(0) {
+		value := protoreflect.ValueOfInt64(x.StartTime)
+		if !f(fd_SpectrumAllocation_start_time, value) {
+			return
+		}
+	}
+	if x.EndTime != int64(0) {
+		value := protoreflect.ValueOfInt64(x.EndTime)
+		if !f(fd_SpectrumAllocation_end_time, value) {
+			return
+		}
+	}
+	if x.Priority != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Priority)
+		if !f(fd_SpectrumAllocation_priority, value) {
+			return
+		}
+	}
+	if x.Status != "" {
+		value := protoreflect.ValueOfString(x.Status)
+		if !f(fd_SpectrumAllocation_status, value) {
+			return
+		}
+	}
+	if x.AllocationType != "" {
+		value := protoreflect.ValueOfString(x.AllocationType)
+		if !f(fd_SpectrumAllocation_allocation_type, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_SpectrumAllocation) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_id":
+		return x.AllocationId != uint64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.request_id":
+		return x.RequestId != uint64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.creator":
+		return x.Creator != ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.organization":
+		return x.Organization != ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.user_type":
+		return x.UserType != ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels":
+		return len(x.Channels) != 0
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.bandwidth":
+		return x.Bandwidth != int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.start_time":
+		return x.StartTime != int64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.end_time":
+		return x.EndTime != int64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.priority":
+		return x.Priority != int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.status":
+		return x.Status != ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_type":
+		return x.AllocationType != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_SpectrumAllocation) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_id":
+		x.AllocationId = uint64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.request_id":
+		x.RequestId = uint64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.creator":
+		x.Creator = ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.organization":
+		x.Organization = ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.user_type":
+		x.UserType = ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels":
+		x.Channels = nil
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.bandwidth":
+		x.Bandwidth = int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.start_time":
+		x.StartTime = int64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.end_time":
+		x.EndTime = int64(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.priority":
+		x.Priority = int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.status":
+		x.Status = ""
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_type":
+		x.AllocationType = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_SpectrumAllocation) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_id":
+		value := x.AllocationId
+		return protoreflect.ValueOfUint64(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.request_id":
+		value := x.RequestId
+		return protoreflect.ValueOfUint64(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.creator":
+		value := x.Creator
+		return protoreflect.ValueOfString(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.organization":
+		value := x.Organization
+		return protoreflect.ValueOfString(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.user_type":
+		value := x.UserType
+		return protoreflect.ValueOfString(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels":
+		if len(x.Channels) == 0 {
+			return protoreflect.ValueOfList(&_SpectrumAllocation_6_list{})
+		}
+		listValue := &_SpectrumAllocation_6_list{list: &x.Channels}
+		return protoreflect.ValueOfList(listValue)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.bandwidth":
+		value := x.Bandwidth
+		return protoreflect.ValueOfInt32(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.start_time":
+		value := x.StartTime
+		return protoreflect.ValueOfInt64(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.end_time":
+		value := x.EndTime
+		return protoreflect.ValueOfInt64(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.priority":
+		value := x.Priority
+		return protoreflect.ValueOfInt32(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.status":
+		value := x.Status
+		return protoreflect.ValueOfString(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_type":
+		value := x.AllocationType
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_SpectrumAllocation) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_id":
+		x.AllocationId = value.Uint()
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.request_id":
+		x.RequestId = value.Uint()
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.creator":
+		x.Creator = value.Interface().(string)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.organization":
+		x.Organization = value.Interface().(string)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.user_type":
+		x.UserType = value.Interface().(string)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels":
+		lv := value.List()
+		clv := lv.(*_SpectrumAllocation_6_list)
+		x.Channels = *clv.list
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.bandwidth":
+		x.Bandwidth = int32(value.Int())
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.start_time":
+		x.StartTime = value.Int()
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.end_time":
+		x.EndTime = value.Int()
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.priority":
+		x.Priority = int32(value.Int())
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.status":
+		x.Status = value.Interface().(string)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_type":
+		x.AllocationType = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_SpectrumAllocation) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels":
+		if x.Channels == nil {
+			x.Channels = []*Channel{}
+		}
+		value := &_SpectrumAllocation_6_list{list: &x.Channels}
+		return protoreflect.ValueOfList(value)
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_id":
+		panic(fmt.Errorf("field allocation_id of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.request_id":
+		panic(fmt.Errorf("field request_id of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.creator":
+		panic(fmt.Errorf("field creator of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.organization":
+		panic(fmt.Errorf("field organization of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.user_type":
+		panic(fmt.Errorf("field user_type of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.bandwidth":
+		panic(fmt.Errorf("field bandwidth of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.start_time":
+		panic(fmt.Errorf("field start_time of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.end_time":
+		panic(fmt.Errorf("field end_time of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.priority":
+		panic(fmt.Errorf("field priority of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.status":
+		panic(fmt.Errorf("field status of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_type":
+		panic(fmt.Errorf("field allocation_type of message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_SpectrumAllocation) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_id":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.request_id":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.creator":
+		return protoreflect.ValueOfString("")
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.organization":
+		return protoreflect.ValueOfString("")
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.user_type":
+		return protoreflect.ValueOfString("")
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels":
+		list := []*Channel{}
+		return protoreflect.ValueOfList(&_SpectrumAllocation_6_list{list: &list})
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.bandwidth":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.start_time":
+		return protoreflect.ValueOfInt64(int64(0))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.end_time":
+		return protoreflect.ValueOfInt64(int64(0))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.priority":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.status":
+		return protoreflect.ValueOfString("")
+	case "spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.allocation_type":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.SpectrumAllocation does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_SpectrumAllocation) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in spectrumsharingblockchain.spectrumallocation.SpectrumAllocation", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_SpectrumAllocation) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_SpectrumAllocation) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_SpectrumAllocation) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_SpectrumAllocation) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*SpectrumAllocation)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.AllocationId != 0 {
+			n += 1 + runtime.Sov(uint64(x.AllocationId))
+		}
+		if x.RequestId != 0 {
+			n += 1 + runtime.Sov(uint64(x.RequestId))
+		}
+		l = len(x.Creator)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Organization)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.UserType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if len(x.Channels) > 0 {
+			for _, e := range x.Channels {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Bandwidth != 0 {
+			n += 1 + runtime.Sov(uint64(x.Bandwidth))
+		}
+		if x.StartTime != 0 {
+			n += 1 + runtime.Sov(uint64(x.StartTime))
+		}
+		if x.EndTime != 0 {
+			n += 1 + runtime.Sov(uint64(x.EndTime))
+		}
+		if x.Priority != 0 {
+			n += 1 + runtime.Sov(uint64(x.Priority))
+		}
+		l = len(x.Status)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.AllocationType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*SpectrumAllocation)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.AllocationType) > 0 {
+			i -= len(x.AllocationType)
+			copy(dAtA[i:], x.AllocationType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AllocationType)))
+			i--
+			dAtA[i] = 0x62
+		}
+		if len(x.Status) > 0 {
+			i -= len(x.Status)
+			copy(dAtA[i:], x.Status)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Status)))
+			i--
+			dAtA[i] = 0x5a
+		}
+		if x.Priority != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Priority))
+			i--
+			dAtA[i] = 0x50
+		}
+		if x.EndTime != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.EndTime))
+			i--
+			dAtA[i] = 0x48
+		}
+		if x.StartTime != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.StartTime))
+			i--
+			dAtA[i] = 0x40
+		}
+		if x.Bandwidth != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Bandwidth))
+			i--
+			dAtA[i] = 0x38
+		}
+		if len(x.Channels) > 0 {
+			for iNdEx := len(x.Channels) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Channels[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0x32
+			}
+		}
+		if len(x.UserType) > 0 {
+			i -= len(x.UserType)
+			copy(dAtA[i:], x.UserType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.UserType)))
+			i--
+			dAtA[i] = 0x2a
+		}
+		if len(x.Organization) > 0 {
+			i -= len(x.Organization)
+			copy(dAtA[i:], x.Organization)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Organization)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if len(x.Creator) > 0 {
+			i -= len(x.Creator)
+			copy(dAtA[i:], x.Creator)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Creator)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if x.RequestId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.RequestId))
+			i--
+			dAtA[i] = 0x10
+		}
+		if x.AllocationId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.AllocationId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*SpectrumAllocation)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: SpectrumAllocation: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: SpectrumAllocation: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AllocationId", wireType)
+				}
+				x.AllocationId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.AllocationId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RequestId", wireType)
+				}
+				x.RequestId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.RequestId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Creator = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Organization", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Organization = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UserType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.UserType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 6:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Channels", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Channels = append(x.Channels, &Channel{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Channels[len(x.Channels)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Bandwidth", wireType)
+				}
+				x.Bandwidth = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Bandwidth |= int32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StartTime", wireType)
+				}
+				x.StartTime = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.StartTime |= int64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 9:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field EndTime", wireType)
+				}
+				x.EndTime = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.EndTime |= int64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 10:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Priority", wireType)
+				}
+				x.Priority = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Priority |= int32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 11:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Status = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 12:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AllocationType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.AllocationType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_Channel_5_list)(nil)
+
+type _Channel_5_list struct {
+	list *[]string
+}
+
+func (x *_Channel_5_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_Channel_5_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfString((*x.list)[i])
+}
+
+func (x *_Channel_5_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.String()
+	concreteValue := valueUnwrapped
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_Channel_5_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.String()
+	concreteValue := valueUnwrapped
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_Channel_5_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message Channel at list field AllowedUsers as it is not of Message kind"))
+}
+
+func (x *_Channel_5_list) Truncate(n int) {
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_Channel_5_list) NewElement() protoreflect.Value {
+	v := ""
+	return protoreflect.ValueOfString(v)
+}
+
+func (x *_Channel_5_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_Channel                protoreflect.MessageDescriptor
+	fd_Channel_id             protoreflect.FieldDescriptor
+	fd_Channel_frequency      protoreflect.FieldDescriptor
+	fd_Channel_bandwidth      protoreflect.FieldDescriptor
+	fd_Channel_channel_status protoreflect.FieldDescriptor
+	fd_Channel_allowed_users  protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_spectrumsharingblockchain_spectrumallocation_genesis_proto_init()
+	md_Channel = File_spectrumsharingblockchain_spectrumallocation_genesis_proto.Messages().ByName("Channel")
+	fd_Channel_id = md_Channel.Fields().ByName("id")
+	fd_Channel_frequency = md_Channel.Fields().ByName("frequency")
+	fd_Channel_bandwidth = md_Channel.Fields().ByName("bandwidth")
+	fd_Channel_channel_status = md_Channel.Fields().ByName("channel_status")
+	fd_Channel_allowed_users = md_Channel.Fields().ByName("allowed_users")
+}
+
+var _ protoreflect.Message = (*fastReflection_Channel)(nil)
+
+type fastReflection_Channel Channel
+
+func (x *Channel) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_Channel)(x)
+}
+
+func (x *Channel) slowProtoReflect() protoreflect.Message {
+	mi := &file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_Channel_messageType fastReflection_Channel_messageType
+var _ protoreflect.MessageType = fastReflection_Channel_messageType{}
+
+type fastReflection_Channel_messageType struct{}
+
+func (x fastReflection_Channel_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_Channel)(nil)
+}
+func (x fastReflection_Channel_messageType) New() protoreflect.Message {
+	return new(fastReflection_Channel)
+}
+func (x fastReflection_Channel_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_Channel
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_Channel) Descriptor() protoreflect.MessageDescriptor {
+	return md_Channel
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_Channel) Type() protoreflect.MessageType {
+	return _fastReflection_Channel_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_Channel) New() protoreflect.Message {
+	return new(fastReflection_Channel)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_Channel) Interface() protoreflect.ProtoMessage {
+	return (*Channel)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_Channel) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Id != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Id)
+		if !f(fd_Channel_id, value) {
+			return
+		}
+	}
+	if x.Frequency != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Frequency)
+		if !f(fd_Channel_frequency, value) {
+			return
+		}
+	}
+	if x.Bandwidth != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Bandwidth)
+		if !f(fd_Channel_bandwidth, value) {
+			return
+		}
+	}
+	if x.ChannelStatus != "" {
+		value := protoreflect.ValueOfString(x.ChannelStatus)
+		if !f(fd_Channel_channel_status, value) {
+			return
+		}
+	}
+	if len(x.AllowedUsers) != 0 {
+		value := protoreflect.ValueOfList(&_Channel_5_list{list: &x.AllowedUsers})
+		if !f(fd_Channel_allowed_users, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_Channel) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.Channel.id":
+		return x.Id != int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.frequency":
+		return x.Frequency != int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.bandwidth":
+		return x.Bandwidth != int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.channel_status":
+		return x.ChannelStatus != ""
+	case "spectrumsharingblockchain.spectrumallocation.Channel.allowed_users":
+		return len(x.AllowedUsers) != 0
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.Channel"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.Channel does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Channel) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.Channel.id":
+		x.Id = int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.frequency":
+		x.Frequency = int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.bandwidth":
+		x.Bandwidth = int32(0)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.channel_status":
+		x.ChannelStatus = ""
+	case "spectrumsharingblockchain.spectrumallocation.Channel.allowed_users":
+		x.AllowedUsers = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.Channel"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.Channel does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_Channel) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.Channel.id":
+		value := x.Id
+		return protoreflect.ValueOfInt32(value)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.frequency":
+		value := x.Frequency
+		return protoreflect.ValueOfInt32(value)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.bandwidth":
+		value := x.Bandwidth
+		return protoreflect.ValueOfInt32(value)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.channel_status":
+		value := x.ChannelStatus
+		return protoreflect.ValueOfString(value)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.allowed_users":
+		if len(x.AllowedUsers) == 0 {
+			return protoreflect.ValueOfList(&_Channel_5_list{})
+		}
+		listValue := &_Channel_5_list{list: &x.AllowedUsers}
+		return protoreflect.ValueOfList(listValue)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.Channel"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.Channel does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Channel) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.Channel.id":
+		x.Id = int32(value.Int())
+	case "spectrumsharingblockchain.spectrumallocation.Channel.frequency":
+		x.Frequency = int32(value.Int())
+	case "spectrumsharingblockchain.spectrumallocation.Channel.bandwidth":
+		x.Bandwidth = int32(value.Int())
+	case "spectrumsharingblockchain.spectrumallocation.Channel.channel_status":
+		x.ChannelStatus = value.Interface().(string)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.allowed_users":
+		lv := value.List()
+		clv := lv.(*_Channel_5_list)
+		x.AllowedUsers = *clv.list
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.Channel"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.Channel does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Channel) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.Channel.allowed_users":
+		if x.AllowedUsers == nil {
+			x.AllowedUsers = []string{}
+		}
+		value := &_Channel_5_list{list: &x.AllowedUsers}
+		return protoreflect.ValueOfList(value)
+	case "spectrumsharingblockchain.spectrumallocation.Channel.id":
+		panic(fmt.Errorf("field id of message spectrumsharingblockchain.spectrumallocation.Channel is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.Channel.frequency":
+		panic(fmt.Errorf("field frequency of message spectrumsharingblockchain.spectrumallocation.Channel is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.Channel.bandwidth":
+		panic(fmt.Errorf("field bandwidth of message spectrumsharingblockchain.spectrumallocation.Channel is not mutable"))
+	case "spectrumsharingblockchain.spectrumallocation.Channel.channel_status":
+		panic(fmt.Errorf("field channel_status of message spectrumsharingblockchain.spectrumallocation.Channel is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.Channel"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.Channel does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_Channel) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "spectrumsharingblockchain.spectrumallocation.Channel.id":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "spectrumsharingblockchain.spectrumallocation.Channel.frequency":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "spectrumsharingblockchain.spectrumallocation.Channel.bandwidth":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "spectrumsharingblockchain.spectrumallocation.Channel.channel_status":
+		return protoreflect.ValueOfString("")
+	case "spectrumsharingblockchain.spectrumallocation.Channel.allowed_users":
+		list := []string{}
+		return protoreflect.ValueOfList(&_Channel_5_list{list: &list})
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: spectrumsharingblockchain.spectrumallocation.Channel"))
+		}
+		panic(fmt.Errorf("message spectrumsharingblockchain.spectrumallocation.Channel does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_Channel) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in spectrumsharingblockchain.spectrumallocation.Channel", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_Channel) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Channel) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_Channel) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_Channel) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*Channel)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.Id != 0 {
+			n += 1 + runtime.Sov(uint64(x.Id))
+		}
+		if x.Frequency != 0 {
+			n += 1 + runtime.Sov(uint64(x.Frequency))
+		}
+		if x.Bandwidth != 0 {
+			n += 1 + runtime.Sov(uint64(x.Bandwidth))
+		}
+		l = len(x.ChannelStatus)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if len(x.AllowedUsers) > 0 {
+			for _, s := range x.AllowedUsers {
+				l = len(s)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*Channel)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.AllowedUsers) > 0 {
+			for iNdEx := len(x.AllowedUsers) - 1; iNdEx >= 0; iNdEx-- {
+				i -= len(x.AllowedUsers[iNdEx])
+				copy(dAtA[i:], x.AllowedUsers[iNdEx])
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AllowedUsers[iNdEx])))
+				i--
+				dAtA[i] = 0x2a
+			}
+		}
+		if len(x.ChannelStatus) > 0 {
+			i -= len(x.ChannelStatus)
+			copy(dAtA[i:], x.ChannelStatus)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ChannelStatus)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if x.Bandwidth != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Bandwidth))
+			i--
+			dAtA[i] = 0x18
+		}
+		if x.Frequency != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Frequency))
+			i--
+			dAtA[i] = 0x10
+		}
+		if x.Id != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*Channel)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: Channel: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: Channel: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+				}
+				x.Id = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Id |= int32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Frequency", wireType)
+				}
+				x.Frequency = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Frequency |= int32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Bandwidth", wireType)
+				}
+				x.Bandwidth = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Bandwidth |= int32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ChannelStatus", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ChannelStatus = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AllowedUsers", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.AllowedUsers = append(x.AllowedUsers, string(dAtA[iNdEx:postIndex]))
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -470,7 +2535,9 @@ type GenesisState struct {
 	unknownFields protoimpl.UnknownFields
 
 	// params defines all the parameters of the module.
-	Params *Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params,omitempty"`
+	Params      *Params               `protobuf:"bytes,1,opt,name=params,proto3" json:"params,omitempty"`
+	Allocations []*SpectrumAllocation `protobuf:"bytes,2,rep,name=allocations,proto3" json:"allocations,omitempty"` // 模块的初始分配记录
+	Channels    []*Channel            `protobuf:"bytes,3,rep,name=channels,proto3" json:"channels,omitempty"`       // 初始频道状态
 }
 
 func (x *GenesisState) Reset() {
@@ -500,6 +2567,210 @@ func (x *GenesisState) GetParams() *Params {
 	return nil
 }
 
+func (x *GenesisState) GetAllocations() []*SpectrumAllocation {
+	if x != nil {
+		return x.Allocations
+	}
+	return nil
+}
+
+func (x *GenesisState) GetChannels() []*Channel {
+	if x != nil {
+		return x.Channels
+	}
+	return nil
+}
+
+type SpectrumAllocation struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AllocationId   uint64     `protobuf:"varint,1,opt,name=allocation_id,json=allocationId,proto3" json:"allocation_id,omitempty"`       // 自动生成的唯一分配记录 ID
+	RequestId      uint64     `protobuf:"varint,2,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`                // 关联的请求 ID（继承自 SpectrumRequest）
+	Creator        string     `protobuf:"bytes,3,opt,name=creator,proto3" json:"creator,omitempty"`                                      // 分配的用户地址（继承自 SpectrumRequest）
+	Organization   string     `protobuf:"bytes,4,opt,name=organization,proto3" json:"organization,omitempty"`                            // 分配的用户所属组织（继承自 SpectrumRequest）
+	UserType       string     `protobuf:"bytes,5,opt,name=user_type,json=userType,proto3" json:"user_type,omitempty"`                    // 用户类型（如 AFC, LPI）
+	Channels       []*Channel `protobuf:"bytes,6,rep,name=channels,proto3" json:"channels,omitempty"`                                    // 分配的频道信息（支持多频道）
+	Bandwidth      int32      `protobuf:"varint,7,opt,name=bandwidth,proto3" json:"bandwidth,omitempty"`                                 // 分配的总带宽 (MHz)
+	StartTime      int64      `protobuf:"varint,8,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`                // 分配开始时间
+	EndTime        int64      `protobuf:"varint,9,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`                      // 分配结束时间
+	Priority       int32      `protobuf:"varint,10,opt,name=priority,proto3" json:"priority,omitempty"`                                  // 动态计算的优先级
+	Status         string     `protobuf:"bytes,11,opt,name=status,proto3" json:"status,omitempty"`                                       // 分配的状态: Active, Released, Pending
+	AllocationType string     `protobuf:"bytes,12,opt,name=allocation_type,json=allocationType,proto3" json:"allocation_type,omitempty"` // 分配类型（如 Auction, Manual, Dynamic）
+}
+
+func (x *SpectrumAllocation) Reset() {
+	*x = SpectrumAllocation{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SpectrumAllocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SpectrumAllocation) ProtoMessage() {}
+
+// Deprecated: Use SpectrumAllocation.ProtoReflect.Descriptor instead.
+func (*SpectrumAllocation) Descriptor() ([]byte, []int) {
+	return file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *SpectrumAllocation) GetAllocationId() uint64 {
+	if x != nil {
+		return x.AllocationId
+	}
+	return 0
+}
+
+func (x *SpectrumAllocation) GetRequestId() uint64 {
+	if x != nil {
+		return x.RequestId
+	}
+	return 0
+}
+
+func (x *SpectrumAllocation) GetCreator() string {
+	if x != nil {
+		return x.Creator
+	}
+	return ""
+}
+
+func (x *SpectrumAllocation) GetOrganization() string {
+	if x != nil {
+		return x.Organization
+	}
+	return ""
+}
+
+func (x *SpectrumAllocation) GetUserType() string {
+	if x != nil {
+		return x.UserType
+	}
+	return ""
+}
+
+func (x *SpectrumAllocation) GetChannels() []*Channel {
+	if x != nil {
+		return x.Channels
+	}
+	return nil
+}
+
+func (x *SpectrumAllocation) GetBandwidth() int32 {
+	if x != nil {
+		return x.Bandwidth
+	}
+	return 0
+}
+
+func (x *SpectrumAllocation) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *SpectrumAllocation) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+func (x *SpectrumAllocation) GetPriority() int32 {
+	if x != nil {
+		return x.Priority
+	}
+	return 0
+}
+
+func (x *SpectrumAllocation) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *SpectrumAllocation) GetAllocationType() string {
+	if x != nil {
+		return x.AllocationType
+	}
+	return ""
+}
+
+type Channel struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id            int32    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                           // 频道 ID
+	Frequency     int32    `protobuf:"varint,2,opt,name=frequency,proto3" json:"frequency,omitempty"`                             // 频道中心频率 (MHz)
+	Bandwidth     int32    `protobuf:"varint,3,opt,name=bandwidth,proto3" json:"bandwidth,omitempty"`                             // 频道宽度 (MHz)
+	ChannelStatus string   `protobuf:"bytes,4,opt,name=channel_status,json=channelStatus,proto3" json:"channel_status,omitempty"` // 状态: Available, Allocated, Protected
+	AllowedUsers  []string `protobuf:"bytes,5,rep,name=allowed_users,json=allowedUsers,proto3" json:"allowed_users,omitempty"`    // List of user types allowed to use this channel
+}
+
+func (x *Channel) Reset() {
+	*x = Channel{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Channel) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Channel) ProtoMessage() {}
+
+// Deprecated: Use Channel.ProtoReflect.Descriptor instead.
+func (*Channel) Descriptor() ([]byte, []int) {
+	return file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Channel) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Channel) GetFrequency() int32 {
+	if x != nil {
+		return x.Frequency
+	}
+	return 0
+}
+
+func (x *Channel) GetBandwidth() int32 {
+	if x != nil {
+		return x.Bandwidth
+	}
+	return 0
+}
+
+func (x *Channel) GetChannelStatus() string {
+	if x != nil {
+		return x.ChannelStatus
+	}
+	return ""
+}
+
+func (x *Channel) GetAllowedUsers() []string {
+	if x != nil {
+		return x.AllowedUsers
+	}
+	return nil
+}
+
 var File_spectrumsharingblockchain_spectrumallocation_genesis_proto protoreflect.FileDescriptor
 
 var file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDesc = []byte{
@@ -515,36 +2786,86 @@ var file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDesc = []
 	0x6f, 0x74, 0x6f, 0x1a, 0x39, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61,
 	0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2f, 0x73,
 	0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x67,
-	0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x57,
-	0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x34,
-	0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67,
-	0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74,
-	0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x50, 0x61,
-	0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52,
-	0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x42, 0xdd, 0x02, 0x0a, 0x30, 0x63, 0x6f, 0x6d, 0x2e,
+	0x6e, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x9e,
+	0x02, 0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12,
+	0x57, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x34, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e,
+	0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x73, 0x70, 0x65, 0x63,
+	0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x50,
+	0x61, 0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01,
+	0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x62, 0x0a, 0x0b, 0x61, 0x6c, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x40, 0x2e,
 	0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62,
 	0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72,
-	0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0x47, 0x65,
-	0x6e, 0x65, 0x73, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x4a, 0x73, 0x70,
-	0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x53, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x42, 0x6c, 0x6f,
-	0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x70, 0x65, 0x63,
-	0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b,
-	0x63, 0x68, 0x61, 0x69, 0x6e, 0x2f, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c,
-	0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0xa2, 0x02, 0x03, 0x53, 0x53, 0x58, 0xaa, 0x02,
-	0x2c, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67,
-	0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x74,
-	0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0xca, 0x02, 0x2c,
-	0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62,
-	0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x5c, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72,
-	0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0xe2, 0x02, 0x38, 0x53,
-	0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c,
-	0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x5c, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75,
-	0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x47, 0x50, 0x42, 0x4d,
-	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x2d, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72,
+	0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x53, 0x70, 0x65,
+	0x63, 0x74, 0x72, 0x75, 0x6d, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x0b, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x51, 0x0a, 0x08,
+	0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x35,
+	0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67,
+	0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74,
+	0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43, 0x68,
+	0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x52, 0x08, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x73, 0x22,
+	0xbb, 0x03, 0x0a, 0x12, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x41, 0x6c, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x61,
+	0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x72,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x09, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x72,
+	0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x72, 0x65,
+	0x61, 0x74, 0x6f, 0x72, 0x12, 0x22, 0x0a, 0x0c, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x6f, 0x72, 0x67, 0x61,
+	0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1b, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72,
+	0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x51, 0x0a, 0x08, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c,
+	0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x35, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72,
 	0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68,
-	0x61, 0x69, 0x6e, 0x3a, 0x3a, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c,
-	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x69, 0x6e, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x52, 0x08,
+	0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x62, 0x61, 0x6e, 0x64,
+	0x77, 0x69, 0x64, 0x74, 0x68, 0x18, 0x07, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x62, 0x61, 0x6e,
+	0x64, 0x77, 0x69, 0x64, 0x74, 0x68, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f,
+	0x74, 0x69, 0x6d, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72,
+	0x74, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x5f, 0x74, 0x69, 0x6d,
+	0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x65, 0x6e, 0x64, 0x54, 0x69, 0x6d, 0x65,
+	0x12, 0x1a, 0x0a, 0x08, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x18, 0x0a, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x08, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x12, 0x16, 0x0a, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x12, 0x27, 0x0a, 0x0f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x61,
+	0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x22, 0xa1, 0x01,
+	0x0a, 0x07, 0x43, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x66, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x6e, 0x63, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x66, 0x72,
+	0x65, 0x71, 0x75, 0x65, 0x6e, 0x63, 0x79, 0x12, 0x1c, 0x0a, 0x09, 0x62, 0x61, 0x6e, 0x64, 0x77,
+	0x69, 0x64, 0x74, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x62, 0x61, 0x6e, 0x64,
+	0x77, 0x69, 0x64, 0x74, 0x68, 0x12, 0x25, 0x0a, 0x0e, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c,
+	0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x63,
+	0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x23, 0x0a, 0x0d,
+	0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x05, 0x20,
+	0x03, 0x28, 0x09, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64, 0x55, 0x73, 0x65, 0x72,
+	0x73, 0x42, 0xdd, 0x02, 0x0a, 0x30, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72,
+	0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68,
+	0x61, 0x69, 0x6e, 0x2e, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x50,
+	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x4a, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d,
+	0x53, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69,
+	0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68,
+	0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2f,
+	0x73, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0xa2, 0x02, 0x03, 0x53, 0x53, 0x58, 0xaa, 0x02, 0x2c, 0x53, 0x70, 0x65, 0x63, 0x74,
+	0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63,
+	0x68, 0x61, 0x69, 0x6e, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0xca, 0x02, 0x2c, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72,
+	0x75, 0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68,
+	0x61, 0x69, 0x6e, 0x5c, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0xe2, 0x02, 0x38, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75,
+	0x6d, 0x73, 0x68, 0x61, 0x72, 0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61,
+	0x69, 0x6e, 0x5c, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0xea, 0x02, 0x2d, 0x53, 0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x73, 0x68, 0x61, 0x72,
+	0x69, 0x6e, 0x67, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x3a, 0x3a, 0x53,
+	0x70, 0x65, 0x63, 0x74, 0x72, 0x75, 0x6d, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -559,18 +2880,23 @@ func file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDescGZIP
 	return file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDescData
 }
 
-var file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_spectrumsharingblockchain_spectrumallocation_genesis_proto_goTypes = []interface{}{
-	(*GenesisState)(nil), // 0: spectrumsharingblockchain.spectrumallocation.GenesisState
-	(*Params)(nil),       // 1: spectrumsharingblockchain.spectrumallocation.Params
+	(*GenesisState)(nil),       // 0: spectrumsharingblockchain.spectrumallocation.GenesisState
+	(*SpectrumAllocation)(nil), // 1: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation
+	(*Channel)(nil),            // 2: spectrumsharingblockchain.spectrumallocation.Channel
+	(*Params)(nil),             // 3: spectrumsharingblockchain.spectrumallocation.Params
 }
 var file_spectrumsharingblockchain_spectrumallocation_genesis_proto_depIdxs = []int32{
-	1, // 0: spectrumsharingblockchain.spectrumallocation.GenesisState.params:type_name -> spectrumsharingblockchain.spectrumallocation.Params
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 0: spectrumsharingblockchain.spectrumallocation.GenesisState.params:type_name -> spectrumsharingblockchain.spectrumallocation.Params
+	1, // 1: spectrumsharingblockchain.spectrumallocation.GenesisState.allocations:type_name -> spectrumsharingblockchain.spectrumallocation.SpectrumAllocation
+	2, // 2: spectrumsharingblockchain.spectrumallocation.GenesisState.channels:type_name -> spectrumsharingblockchain.spectrumallocation.Channel
+	2, // 3: spectrumsharingblockchain.spectrumallocation.SpectrumAllocation.channels:type_name -> spectrumsharingblockchain.spectrumallocation.Channel
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_spectrumsharingblockchain_spectrumallocation_genesis_proto_init() }
@@ -592,6 +2918,30 @@ func file_spectrumsharingblockchain_spectrumallocation_genesis_proto_init() {
 				return nil
 			}
 		}
+		file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SpectrumAllocation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spectrumsharingblockchain_spectrumallocation_genesis_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Channel); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -599,7 +2949,7 @@ func file_spectrumsharingblockchain_spectrumallocation_genesis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spectrumsharingblockchain_spectrumallocation_genesis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

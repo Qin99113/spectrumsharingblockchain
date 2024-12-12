@@ -4,6 +4,7 @@ package spectrumsharingblockchain.spectrumrequest;
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "spectrumsharingblockchain/spectrumrequest/params.proto";
+import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "spectrumSharingBlockchain/x/spectrumrequest/types";
 
@@ -14,4 +15,18 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  repeated SpectrumRequest pending_requests = 2;
+}
+
+
+message SpectrumRequest {
+  uint64 id = 1; // 自动生成的唯一 ID
+  string creator = 2;
+  string organization = 3; 
+  string user_type = 4; 
+  int32 bandwidth = 5;
+  int32 duration = 6;
+  cosmos.base.v1beta1.Coin bid_amount = 7;
+  string status = 8;
+  int64 request_time = 9;
 }

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package spectrumsharingblockchain.spectrumallocation;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "spectrumsharingblockchain/spectrumallocation/params.proto";
+
+option go_package = "spectrumSharingBlockchain/x/spectrumallocation/types";
+
+// GenesisState defines the spectrumallocation module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

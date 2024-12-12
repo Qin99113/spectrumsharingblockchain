@@ -3,7 +3,6 @@ package keeper
 import (
 	"fmt"
 	"sort"
-	"strconv"
 
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/log"
@@ -30,7 +29,7 @@ func NewKeeper(
 	cdc codec.BinaryCodec,
 	storeService store.KVStoreService,
 	logger log.Logger,
-	spectrumRequestKeeper types.SpectrumrequestKeeper,
+	SpectrumRequestKeeper types.SpectrumrequestKeeper,
 	authority string,
 
 ) Keeper {
@@ -43,7 +42,7 @@ func NewKeeper(
 		storeService:          storeService,
 		authority:             authority,
 		logger:                logger,
-		SpectrumRequestKeeper: spectrumRequestKeeper,
+		SpectrumRequestKeeper: SpectrumRequestKeeper,
 	}
 }
 
@@ -57,16 +56,22 @@ func (k Keeper) Logger() log.Logger {
 	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
-func (k Keeper) SetSpectrumAllocation(ctx sdk.Context, allocation types.SpectrumAllocation) {
+func (k Keeper) SetSpectrumAllocation(ctx sdk.Context, allocation types.SpectrumAllocation) error {
 	store := k.storeService.OpenKVStore(ctx)
 
-	key := types.KeyPrefix(types.SpectrumAllocationKey + strconv.FormatUint(allocation.AllocationId, 10))
+	// 清理无效的分配记录
+	removedCount := k.CleanInvalidAllocations(ctx)
+	if removedCount > 0 {
+		k.Logger().Info(fmt.Sprintf("Cleaned up %d invalid allocations before setting new allocation", removedCount))
+	}
+	key := types.GetSpectrumAllocationsKey(allocation.AllocationId)
 	bz := k.cdc.MustMarshal(&allocation)
 
 	err := store.Set(key, bz)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to set SpectrumAllocation: %v", err))
 	}
+	return nil
 }
 
 func (k Keeper) GetNextAllocationID(ctx sdk.Context) uint64 {
@@ -82,10 +87,40 @@ func (k Keeper) GetNextAllocationID(ctx sdk.Context) uint64 {
 	return id
 }
 
+func (k Keeper) GetSpectrumAllocation(ctx sdk.Context, id uint64) types.SpectrumAllocation {
+	// 打开 KVStore
+	store := k.storeService.OpenKVStore(ctx)
+
+	// 生成存储 Key
+	key := types.GetSpectrumAllocationsKey(id)
+
+	// 从 KVStore 中获取数据
+	bz, err := store.Get(key)
+	if err != nil {
+		// 错误处理，例如记录日志或返回默认值
+		k.logger.Error(fmt.Sprintf("failed to get SpectrumRequest with ID %d: %v", id, err))
+		return types.SpectrumAllocation{}
+	}
+
+	if bz == nil {
+		// 数据为空，表示没有找到对应的请求
+		return types.SpectrumAllocation{}
+	}
+
+	var request types.SpectrumAllocation
+	if err := k.cdc.Unmarshal(bz, &request); err != nil {
+		k.logger.Error(fmt.Sprintf("failed to unmarshal SpectrumRequest with ID %d: %v", id, err))
+		return types.SpectrumAllocation{}
+	}
+
+	// 成功返回
+	return request
+}
+
 // GetAllSpectrumAllocations retrieves all spectrum allocation records from the store.
 func (k Keeper) GetAllSpectrumAllocations(ctx sdk.Context) []types.SpectrumAllocation {
 	store := k.storeService.OpenKVStore(ctx)
-	iterator, err := store.Iterator(types.KeyPrefix("Active"), nil) // Create an iterator to scan all keys
+	iterator, err := store.Iterator(types.KeyPrefix(types.SpectrumAllocationsKey), nil) // Create an iterator to scan all keys
 	if err != nil {
 		panic(fmt.Sprintf("failed to create store iterator: %s", err))
 	}
@@ -98,6 +133,44 @@ func (k Keeper) GetAllSpectrumAllocations(ctx sdk.Context) []types.SpectrumAlloc
 		allocations = append(allocations, allocation)
 	}
 	return allocations
+}
+
+func (k Keeper) CleanInvalidAllocations(ctx sdk.Context) int {
+	store := k.storeService.OpenKVStore(ctx)
+	prefix := types.KeyPrefix(types.SpectrumAllocationsKey)
+
+	iterator, err := store.Iterator(prefix, nil)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to create store iterator: %s", err))
+	}
+	defer iterator.Close()
+
+	removedCount := 0
+
+	for ; iterator.Valid(); iterator.Next() {
+		var allocation types.SpectrumAllocation
+		bz := iterator.Value()
+
+		// 尝试解码
+		err := k.cdc.Unmarshal(bz, &allocation)
+		if err != nil {
+			// 如果解码失败，删除该记录
+			store.Delete(iterator.Key())
+			removedCount++
+			k.Logger().Warn(fmt.Sprintf("Removed invalid allocation due to unmarshaling error: Key=%x", iterator.Key()))
+			continue
+		}
+
+		// 检查记录是否无效
+		if allocation.AllocationId == 0 || allocation.RequestId == 0 || allocation.Bandwidth == 0 || allocation.Status == "" {
+			store.Delete(iterator.Key())
+			removedCount++
+			k.Logger().Warn(fmt.Sprintf("Removed invalid allocation: %+v", allocation))
+		}
+	}
+
+	k.Logger().Info(fmt.Sprintf("Cleaned up %d invalid allocations", removedCount))
+	return removedCount
 }
 
 func (k Keeper) InitializeChannels(ctx sdk.Context) {
@@ -269,26 +342,85 @@ func (k Keeper) AutoAllocateRequests(ctx sdk.Context) {
 	}
 }
 
+// func DeepCopyAllocation(allocation types.SpectrumAllocation) types.SpectrumAllocation {
+// 	// 深拷贝 Channels
+// 	newChannels := make([]*types.Channel, len(allocation.Channels))
+// 	for i, ch := range allocation.Channels {
+// 		copy := *ch
+// 		newChannels[i] = &copy
+// 	}
+
+// 	// 返回深拷贝的对象
+// 	return types.SpectrumAllocation{
+// 		AllocationId:   allocation.AllocationId,
+// 		RequestId:      allocation.RequestId,
+// 		Creator:        allocation.Creator,
+// 		Organization:   allocation.Organization,
+// 		UserType:       allocation.UserType,
+// 		Channels:       newChannels,
+// 		Bandwidth:      allocation.Bandwidth,
+// 		StartTime:      allocation.StartTime,
+// 		EndTime:        allocation.EndTime,
+// 		Priority:       allocation.Priority,
+// 		Status:         allocation.Status,
+// 		AllocationType: allocation.AllocationType,
+// 	}
+// }
+
 func (k Keeper) ReleaseAllocation(ctx sdk.Context, allocation types.SpectrumAllocation) {
-	// Update the status of the allocation
+	// Update allocation directly and save
+	allocation = k.GetSpectrumAllocation(ctx, allocation.AllocationId)
 	allocation.Status = "Released"
-	k.SetSpectrumAllocation(ctx, allocation)
-	// Update the status of allocated channels back to "Available"
-	for _, channel := range allocation.Channels {
-		channel.ChannelStatus = "Available"
-		k.SetChannel(ctx, *channel)
+	// 返回深拷贝的对象
+	allocation = types.SpectrumAllocation{
+		AllocationId:   allocation.AllocationId,
+		RequestId:      allocation.RequestId,
+		Creator:        allocation.Creator,
+		Organization:   allocation.Organization,
+		UserType:       allocation.UserType,
+		Channels:       allocation.Channels,
+		Bandwidth:      allocation.Bandwidth,
+		StartTime:      allocation.StartTime,
+		EndTime:        allocation.EndTime,
+		Priority:       allocation.Priority,
+		Status:         "Released",
+		AllocationType: allocation.AllocationType,
 	}
-	// Log the release
-	k.Logger().Info(fmt.Sprintf("Released Allocation ID: %d", allocation.AllocationId))
+
+	k.SetSpectrumAllocation(ctx, allocation)
+	// // Release channels
+	// Channels := make([]*types.Channel, len(allocation.Channels))
+	// for i, channel := range allocation.Channels {
+	// 	Channel := &types.Channel{
+	// 		Id:            channel.Id,
+	// 		Frequency:     channel.Frequency,
+	// 		Bandwidth:     channel.Bandwidth,
+	// 		ChannelStatus: channel.ChannelStatus,
+	// 	}
+	// 	Channels[i] = Channel
+	// }
+	// allocation.Channels = Channels
+
+	// err := k.ReleaseChannels(ctx, allocation)
+	// if err != nil {
+	// 	panic(fmt.Sprintf("Failed to release channels: %v", err))
+	// }
+
 }
 
 func (k Keeper) ReleaseExpiredAllocations(ctx sdk.Context) {
 	allocations := k.GetAllSpectrumAllocations(ctx) // Retrieve all allocations
 	currentTime := ctx.BlockHeader().Time.Unix()
 	for _, allocation := range allocations {
+		// Debug log
+		k.Logger().Info(fmt.Sprintf("Checking Allocation ID: %d, EndTime: %d, CurrentTime: %d", allocation.AllocationId, allocation.EndTime, currentTime))
+
 		// Check if the allocation has expired
 		if allocation.EndTime <= currentTime && allocation.Status == "Active" {
 			k.ReleaseAllocation(ctx, allocation)
+			k.Logger().Info(fmt.Sprintf("Released Allocation ID: %d", allocation.AllocationId))
+		} else {
+			k.Logger().Info(fmt.Sprintf("Allocation ID: %d is not expired or inactive", allocation.AllocationId))
 		}
 	}
 }

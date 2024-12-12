@@ -14,8 +14,10 @@ func (k Keeper) SetChannel(ctx sdk.Context, channel types.Channel) {
 	// Open the KVStore for the current context
 	store := k.storeService.OpenKVStore(ctx)
 
+	k.CleanInvalidChannels(ctx)
+
 	// Create a key for the channel using its ID
-	key := types.KeyPrefix(fmt.Sprintf("channel:%d", channel.Id))
+	key := types.GetChannelKey(channel.Id)
 
 	// Marshal the Channel object into binary data for storage
 	bz := k.cdc.MustMarshal(&channel)
@@ -29,8 +31,10 @@ func (k Keeper) GetChannel(ctx sdk.Context, id int32) (types.Channel, bool) {
 	// Open the KVStore for the current context
 	store := k.storeService.OpenKVStore(ctx)
 
+	k.CleanInvalidChannels(ctx)
+
 	// Create the key using the channel ID
-	key := types.KeyPrefix(fmt.Sprintf("channel:%d", id))
+	key := types.GetChannelKey(id)
 
 	// Retrieve the binary data stored under the key
 	bz, err := store.Get(key)
@@ -55,6 +59,8 @@ func (k Keeper) GetChannel(ctx sdk.Context, id int32) (types.Channel, bool) {
 func (k Keeper) GetAllChannels(ctx sdk.Context) []types.Channel {
 	// Open the KVStore for the current context
 	store := k.storeService.OpenKVStore(ctx)
+
+	k.CleanInvalidChannels(ctx)
 
 	// Retrieve an iterator for all keys and values in the store
 	iterator, err := store.Iterator(nil, nil)
@@ -83,6 +89,30 @@ func (k Keeper) GetAllChannels(ctx sdk.Context) []types.Channel {
 	return channels
 }
 
+// ReleaseChannels releases all channels allocated to a specific allocation.
+func (k Keeper) ReleaseChannels(ctx sdk.Context, allocation types.SpectrumAllocation) error {
+	for _, channel := range allocation.Channels {
+		// Retrieve the channel from the store
+		channelObj, found := k.GetChannel(ctx, channel.Id)
+		if !found {
+			return fmt.Errorf("channel with ID %d not found", channel.Id)
+		}
+
+		// 创建独立的 channel 副本，避免修改原始引用
+		updatedChannel := types.Channel{
+			Id:            channelObj.Id,
+			Frequency:     channelObj.Frequency,
+			Bandwidth:     channelObj.Bandwidth,
+			ChannelStatus: "Available",
+		}
+
+		// Save the updated channel back to the store
+		k.SetChannel(ctx, updatedChannel)
+	}
+	return nil
+}
+
+// CleanInvalidChannels removes invalid channels from the store.
 func (k Keeper) CleanInvalidChannels(ctx sdk.Context) {
 	store := k.storeService.OpenKVStore(ctx)
 	iterator, err := store.Iterator(nil, nil)
@@ -95,7 +125,7 @@ func (k Keeper) CleanInvalidChannels(ctx sdk.Context) {
 		var channel types.Channel
 		k.cdc.MustUnmarshal(iterator.Value(), &channel)
 
-		// 删除无效频道
+		// Check if the channel is invalid
 		if channel.Frequency == 0 || channel.Bandwidth == 0 || channel.ChannelStatus == "" {
 			k.Logger().Warn(fmt.Sprintf("Deleting invalid channel: %+v", channel))
 			err := store.Delete(iterator.Key())
@@ -104,20 +134,4 @@ func (k Keeper) CleanInvalidChannels(ctx sdk.Context) {
 			}
 		}
 	}
-}
-
-// ReleaseChannels releases all channels allocated to a specific allocation.
-func (k Keeper) ReleaseChannels(ctx sdk.Context, allocation types.SpectrumAllocation) error {
-	for _, channel := range allocation.Channels {
-		// Retrieve the channel from the store
-		channelObj, found := k.GetChannel(ctx, channel.Id)
-		if !found {
-			return fmt.Errorf("channel with ID %d not found", channel.Id)
-		}
-
-		// Update channel status to "Available"
-		channelObj.ChannelStatus = "Available"
-		k.SetChannel(ctx, channelObj)
-	}
-	return nil
 }
